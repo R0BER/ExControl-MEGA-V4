@@ -404,13 +404,15 @@ void CreateStandarPacket(){
           #endif  
           return; 
       }  
+     /*
     #else
         if (Ethernet.linkStatus() != LinkON) {
           #ifdef EXC_DEBUG_MODE   
-            Serial.println("Fallo cable de red");  
+           Serial.println("Fallo cable de red");  
           #endif  
           return;
         }
+        */
     #endif
 
     if (TimUdp>=1){
@@ -1111,10 +1113,11 @@ void RecepcionPaqueteUDP(){
   }
   else{ //Sin comunicacion, gestionamos otras comunicaciones
     #ifdef EXC_SERVER
-
+      /*
       #ifndef EXC_WIFI_SHIELD
         if (Ethernet.linkStatus() != LinkON) {return;}
       #endif  
+      */
       if ((IntCom > 0)||(TimUdp<1)){return;}
    
       for (int a=0;a<N_ALARMS;a++){
@@ -1425,6 +1428,38 @@ void ResetConexion() {
      WiFi.disconnect();   
 
   #else
+      #ifdef EXC_DEBUG_MODE   
+          Serial.println("Reseteando Conexon");  
+      #endif 
+      #ifdef EXC_ENABLE_WATCH_DOG
+        wdt_reset();
+      #endif  
+      Udp.stop();
+      Ethernet.init(10);   // MKR ETH shield  cs pin
+      
+      #ifdef EXC_STATIC_IP  
+        Ethernet.begin(mac,ip);
+      #else    
+        Ethernet.begin(mac);
+      #endif
+  
+       #ifdef EXC_SERVER
+        if (!Udp.begin(localPort)==1){
+          TimUdp=35;
+          #ifdef EXC_DEBUG_MODE   
+            Serial.println("Fallo Iniciando UDP");  
+          #endif
+          }
+       #else
+        if (Udp.begin(localPort)==1){FalloUdp=false;}
+        else{
+          FalloUdp=true;
+           #ifdef EXC_DEBUG_MODE   
+                Serial.println("Fallo Iniciando UDP");  
+            #endif
+          }
+       #endif
+   /*
     if (Ethernet.linkStatus() == LinkON) {
       #ifdef EXC_DEBUG_MODE   
           Serial.println("Reseteando Conexon");  
@@ -1457,6 +1492,7 @@ void ResetConexion() {
             #endif
           }
        #endif
+       
     }
     else
     {
@@ -1469,6 +1505,7 @@ void ResetConexion() {
           FalloUdp=false;          
         #endif        
     }   
+    */
   #endif
 }
 
