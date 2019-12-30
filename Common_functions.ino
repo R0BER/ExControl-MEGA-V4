@@ -142,7 +142,7 @@ void setup(){
      #endif
      #ifdef EXC_DEBUG_MODE   
         if (Ethernet.hardwareStatus() == EthernetNoHardware) {Serial.println("Ethernet shield was not found.  Sorry, can't run without hardware. :(");} else{Serial.println("Ethernet shield running");}
-        if (Ethernet.linkStatus() == LinkOFF) {Serial.println("Ethernet cable is not connected.");}
+        if (Ethernet.linkStatus() == LinkOFF) {Serial.println("Ethernet cable is not connected.  o tarjeta no compatible");}
      #endif
     #ifdef EXC_SERVER
       if (Udp.begin(localPort)==1){TimUdp=30;}
