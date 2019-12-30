@@ -337,7 +337,7 @@ boolean Deslastre = false;
 //Meteo
 int8_t outside_temperature = 0;
 byte hour_orto, minute_horto, hour_ocaso, minute_ocaso,  outside_humidity, wind_speed, wind_direction, rain_now, rain_today;
-byte  IntCom = 0;
+//byte  IntCom = 0;
 byte TimUdp = 20;
 #else
 boolean FalloUdp = false;
