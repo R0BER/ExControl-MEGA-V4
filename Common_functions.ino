@@ -806,6 +806,9 @@ void RecepcionPaqueteUDP(){
       case 3:{//Set Consignas
         if (packetBuffer[4]<EXC_Consignas){
            Consignas[packetBuffer[4]]=word(packetBuffer[5], packetBuffer[6]) ;
+           int cdi=EM_SETPOINTS_OFSSET + (packetBuffer[4]*2);
+           EepromWrite(cdi,packetBuffer[5]);   
+           EepromWrite(cdi +1,packetBuffer[6]); 
         }
         PaqueteEstandar(Udp.remoteIP(), Udp.remotePort());  
         break;                
