@@ -1657,7 +1657,7 @@ void ResetAlarm(int Number){if ((Number<=19)&&(Alarms[Number]==AlarmSent)){Alarm
           } 
   }
   
-  void SetRGBLed(byte RedPin, byte GreenPin, byte BluePin,  byte Value){  
+  void SetRGBLed(byte RedPin, byte GreenPin, byte BluePin,  byte Value, boolean InvertirSalida){  
 
       byte R,G,B;
       switch (Value) {
@@ -1781,9 +1781,17 @@ void ResetAlarm(int Number){if ((Number<=19)&&(Alarms[Number]==AlarmSent)){Alarm
           R=0;G=0;B=0;
           break;
         }
-         analogWrite( RedPin, R);
-         analogWrite( GreenPin, G);
-         analogWrite( BluePin, B);      
+         if(InvertirSalida){
+          analogWrite( RedPin,255 - R);
+          analogWrite( GreenPin,255 -  G);
+          analogWrite( BluePin,255 -  B);   
+        }
+        else{
+          analogWrite( RedPin, R);
+          analogWrite( GreenPin, G);
+          analogWrite( BluePin, B);  
+        
+        }      
   }
 #endif
 
